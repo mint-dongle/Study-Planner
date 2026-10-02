@@ -1,0 +1,226 @@
+
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>Document</title> 
+ 
+    <style> 
+        * { 
+            box-sizing: border-box; 
+        } 
+ 
+        body { 
+            font-family: "Segoe UI", Arial, sans-serif; 
+            background: linear-gradient(135deg, #eef2ff, #f8fafc); 
+            margin: 0; 
+            padding: 50px 20px; 
+            min-height: 100vh; 
+            color: #1e293b; 
+        } 
+ 
+        h1 { 
+            text-align: center; 
+            font-size: 40px; 
+            color: #1e3a8a; 
+            margin-bottom: 40px; 
+            letter-spacing: 1px; 
+        } 
+ 
+        body > div { 
+            width: 600px; 
+            max-width: 100%; 
+            margin: 20px auto; 
+            padding: 28px 30px; 
+            background: rgba(255, 255, 255, 0.97); 
+            border-radius: 16px; 
+            border-left: 6px solid #4f46e5; 
+            box-shadow: 0 8px 25px rgba(15, 23, 42, 0.08); 
+            transition: 0.3s ease; 
+        } 
+ 
+        body > div:hover { 
+            transform: translateY(-4px); 
+            box-shadow: 0 12px 30px rgba(15, 23, 42, 0.14); 
+        } 
+ 
+        h3 { 
+            margin: 0 0 18px; 
+            font-size: 24px; 
+            color: #312e81; 
+        } 
+ 
+        p { 
+            margin: 10px 0; 
+            font-size: 16px; 
+            color: #475569; 
+        } 
+ 
+        p:last-of-type { 
+            margin-top: 18px; 
+            padding: 10px 14px; 
+            border-radius: 8px; 
+            background-color: #fff7ed; 
+            color: #c2410c; 
+            font-weight: 600; 
+        } 
+ 
+        a { 
+            display: inline-block; 
+            margin-top: 18px; 
+            margin-right: 8px; 
+            padding: 9px 18px; 
+            border-radius: 8px; 
+            text-decoration: none; 
+            font-size: 14px; 
+            font-weight: 600; 
+            transition: 0.2s ease; 
+        } 
+ 
+        /* Edit button */ 
+        a:nth-of-type(1) { 
+            background-color: #e0e7ff; 
+            color: #3730a3; 
+        } 
+ 
+        a:nth-of-type(1):hover { 
+            background-color: #c7d2fe; 
+            transform: translateY(-2px); 
+        } 
+ 
+        /* Complete button */ 
+        a:nth-of-type(2) { 
+            background-color: #dcfce7; 
+            color: #15803d; 
+        } 
+ 
+        a:nth-of-type(2):hover { 
+            background-color: #bbf7d0; 
+            transform: translateY(-2px); 
+        } 
+ 
+        /* Delete button */ 
+        a:nth-of-type(3) { 
+            background-color: #fee2e2; 
+            color: #b91c1c; 
+        } 
+ 
+        a:nth-of-type(3):hover { 
+            background-color: #fecaca; 
+            transform: translateY(-2px); 
+        } 
+ 
+        @media (max-width: 650px) { 
+            body { 
+                padding: 30px 15px; 
+            } 
+ 
+            h1 { 
+                font-size: 30px; 
+                margin-bottom: 25px; 
+            } 
+ 
+            body > div { 
+                padding: 22px; 
+            } 
+ 
+            h3 { 
+                font-size: 21px; 
+            } 
+ 
+            a { 
+                margin-top: 12px; 
+                padding: 8px 14px; 
+            } 
+        } 
+
+        /* Common Add Task Button */
+
+        .tasks-container {
+            width: 600px;
+            max-width: 100%;
+            margin: 20px auto;
+            padding: 28px 30px;
+            background: rgba(255, 255, 255, 0.97);
+            border-radius: 16px;
+            border-left: 6px solid #4f46e5;
+            box-shadow: 0 8px 25px rgba(15, 23, 42, 0.08);
+        }
+
+        .add-task-btn { 
+            background: linear-gradient(135deg, #5b55c7, #4238b8); 
+            color: white; 
+            border: none; 
+            padding: 10px 20px; 
+            font-size: 16px; 
+            font-weight: 600; 
+            border-radius: 10px; 
+            cursor: pointer; 
+            box-shadow: 0 8px 20px rgba(70, 60, 180, 0.25); 
+            transition: 0.3s ease; 
+            text-decoration: none;
+            display: inline-block;
+            margin: 0 0 25px 0;
+        } 
+ 
+        .add-task-btn:hover { 
+            transform: translateY(-2px); 
+            box-shadow: 0 12px 25px rgba(70, 60, 180, 0.35); 
+        } 
+
+        .task {
+            margin: 20px 0;
+            padding: 28px 30px;
+            background: rgba(255, 255, 255, 0.97);
+            border-radius: 16px;
+            border-left: 6px solid #4f46e5;
+            box-shadow: 0 8px 25px rgba(15, 23, 42, 0.08);
+        }
+    </style> 
+</head> 
+
+<body> 
+
+    <h1>Study Planner</h1> 
+
+    <div class="tasks-container">
+
+        <!-- ONE COMMON ADD TASK BUTTON -->
+        <a href="{% url 'add_task' %}" class="add-task-btn">
+            + Add Task
+        </a>
+
+        {% for task in tasks %} 
+
+            <div class="task"> 
+
+                <h3>{{task.title}}</h3> 
+ 
+                <p>Subject : {{task.subject}}</p> 
+                <p>Deadline: {{task.deadline}}</p> 
+ 
+                {% if task.completed %} 
+                    <p>The task is already completed</p> 
+                 
+                {% else %} 
+                    <p>The task is still pending...</p> 
+                {% endif %} 
+                 
+                <a href="{% url 'edit_task' task.id %}">Edit</a> 
+                <a href="{% url 'complete_task' task.id %}">Complete</a> 
+                <a href="{% url 'delete_task' task.id %}">Delete</a> 
+
+            </div>
+
+        {% empty %} 
+
+            <p>No tasks found</p>
+
+        {% endfor %}
+
+    </div>
+ 
+</body> 
+</html>
+
